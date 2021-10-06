@@ -1,9 +1,20 @@
 from __future__ import annotations
 
 import asyncio
+from typing import Literal
 
 import sentry_sdk
 from redis import asyncio as aioredis
+
+
+store_list = Literal[
+    "Nintendo 3DS",
+    "Nintendo DSi",
+    "Fonts",
+    "Icon",
+    "R4 Original",
+    "Unlaunch"
+]
 
 
 def log_exception(task: asyncio.Task):

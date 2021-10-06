@@ -12,6 +12,8 @@ if TYPE_CHECKING:
     from typing_extensions import Self
 
 
+from .utils import store_list
+
 App = Dict[str, Any]
 
 
@@ -32,7 +34,7 @@ class Universal_DB:
         return None
 
     def get_apps_by_system(self, system: str):
-        system = system.upper()
+        # system = system.upper()
         return [app for app in self._cache if system in app["systems"]]
 
     @property
@@ -116,7 +118,7 @@ class Application(BaseModel):
     # Based on genson & datamodel-code-gen
     author: str
     avatar: Optional[AnyUrl] = None
-    categories: List[str]
+    category: List[str]
     color: Optional[str] = None
     color_bg: Optional[str] = None
     created: Optional[datetime] = None
@@ -131,16 +133,17 @@ class Application(BaseModel):
     license: Optional[str] = None
     license_name: Optional[str] = None
     long_description: Optional[str] = None
+    priority: Optional[bool] = False
     scripts: Optional[Dict[str, Union[List[ApplicationScript], NightlyApplicationScript, SizeableApplicationScript]]] = None
-    slug: str
+    slug: Optional[str] = None
     source: Optional[AnyUrl] = None
-    systems: List[Literal['3DS', 'DS']]
+    systems: List[store_list]
     title: str
     unique_ids: Optional[List[int]] = None
     update_notes: Optional[str] = None
     update_notes_md: Optional[str] = None
     updated: Optional[datetime] = None
-    urls: List[AnyUrl]
+    urls: Optional[List[AnyUrl]] = None
     version: Optional[str] = None
     version_title: Optional[str] = None
     qr: Optional[Dict[str, AnyUrl]] = None
