@@ -41,7 +41,7 @@ class App(FastAPI):
     redis: aioredis.Redis
 
 
-app = App(title="UDB API", version="1.1.0", docs_url='/swagger-docs', redoc_url=None)
+app = App(title="TWLMenu-extras", version="1.1.0", docs_url='/swagger-docs', redoc_url=None)
 app.add_middleware(SentryAsgiMiddleware)
 jinja_env = Environment(loader=FileSystemLoader('templates'), enable_async=True)
 add_routers(app)
@@ -80,14 +80,14 @@ async def docs():
 <head>
   <meta charset="utf-8"> <!-- Important: rapi-doc uses utf8 characters -->
   <script type="module" src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"></script>
-  <meta name="title" content="Universal DB API">
-  <meta name="author" content="LightSage">
-  <meta property="og:title" content="Universal DB API">
+  <meta name="title" content="TWLMenu-extras API">
+  <meta name="author" content="lifehackerhansol">
+  <meta property="og:title" content="TWLMenu-extras API">
   <meta property="og:type" content="website">
-  <meta property="og:description" content="An actual Universal DB API">
-  <meta property="og:url" content="https://udb-api.lightsage.dev">
+  <meta property="og:description" content="An actual Universal DB API, modified for TWLMenu-extras">
+  <meta property="og:url" content="https://twlmenu-extras.lifehacker101.net">
   <meta property="og:image" content="">
-  <title>Universal DB API</title>
+  <title>TWLMenu-extras API</title>
 </head>
 <body>
   <rapi-doc

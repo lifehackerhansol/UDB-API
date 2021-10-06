@@ -23,26 +23,26 @@ from ..request import Request
 router = APIRouter(tags=['applications'])
 
 
-@router.get("/search/{application}")
-async def search_apps(application: str, request: Request) -> Dict[str, List[Dict[str, Any]]]:
+@router.get("/search/{console}/{application}")
+async def search_apps(console: str, application: str, request: Request) -> Dict[str, List[Dict[str, Any]]]:
     """Searches for applications."""
     apps = []
-    all_apps: List[str] = request.app.state.cache.get_app_names()
+    all_apps: List[str] = request.app.state.cache.get_app_names(console)
     all_apps.sort(key=len)
     for name, _, _ in rapidfuzz.process.extract(application, all_apps, scorer=rapidfuzz.fuzz.QRatio,
                                                 score_cutoff=50):
-        a = request.app.state.cache.get_app(name)
+        a = request.app.state.cache.get_app(console, name)
         apps.append(a)
 
     return {"results": apps}
 
 
-@router.get("/get/{application}", deprecated=True)
-async def get_app(application: str, request: Request):
+@router.get("/get/{console}/{application}", deprecated=True)
+async def get_app(console: str, application: str, request: Request):
     """Gets an application.
 
     WARNING: This route will not fuzzy search like /search does."""
-    a = request.app.state.cache.get_app(application)
+    a = request.app.state.cache.get_app(console, application)
 
     if a is None:
         raise HTTPException(status_code=404, detail="Application not found")
@@ -50,8 +50,8 @@ async def get_app(application: str, request: Request):
     return a
 
 
-@router.get("/random")
-async def get_random_app(request: Request, limit: Optional[int] = None):
+@router.get("/random/{console}")
+async def get_random_app(console: str, request: Request, limit: Optional[int] = None):
     """Gets a random application"""
     limit = limit or 1
 
@@ -61,7 +61,7 @@ async def get_random_app(request: Request, limit: Optional[int] = None):
     apps = []
     for _ in range(limit):
         # TODO: Unique only
-        appl = request.app.state.cache.get_random_app()
+        appl = request.app.state.cache.get_random_app(console)
         apps.append(appl)
 
     return apps

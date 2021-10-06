@@ -131,3 +131,7 @@ dmypy.json
 # Config files
 config.py
 config.json
+
+# funny script to start because I'm lazy
+start.sh
+start.bat
