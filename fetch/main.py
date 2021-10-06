@@ -26,7 +26,7 @@ from redis import asyncio as aioredis
 async def actual_work(redis_dsn: str):
     redis = await aioredis.from_url(redis_dsn)
     async with aiohttp.ClientSession() as session:
-        async with session.get("https://db.universal-team.net/data/full.json") as resp:
+        async with session.get("https://skins.ds-homebrew.com/data/full.json") as resp:
             r = await resp.json()
 
     await redis.set("udb:cache", json.dumps(r))

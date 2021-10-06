@@ -1,10 +1,10 @@
-# UDB-API
+# TWLMenu-extras API
 
-An actual API for Universal DB.
+An actual API for Universal DB, modified for TWLMenu-extras unistore.
 
-You can find the API at https://udb-api.lightsage.dev/
+You can find the API at https://twlmenu-extras.lifehacker101.net/
 
-Documentation for API endpoints can be found at https://udb-api.lightsage.dev/docs/
+Documentation for API endpoints can be found at https://twlmenu-extras.lifehacker101.net/docs/
 
 
 ### General self-hosting tips

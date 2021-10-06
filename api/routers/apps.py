@@ -22,6 +22,7 @@ from pydantic import BaseModel
 
 from ..models import Application
 from ..request import Request
+from ..utils import store_list
 
 router = APIRouter(tags=['applications'])
 
@@ -33,7 +34,7 @@ class SearchResult(BaseModel):
 @router.get("/search/{application}", response_model=SearchResult)
 async def search_apps(application: str,
                       request: Request,
-                      system: Optional[Literal['3ds', 'ds']] = None):
+                      system: Optional[store_list] = None):
     """Searches for applications with optional filter query params"""
     apps = []
     if system:
@@ -44,7 +45,7 @@ async def search_apps(application: str,
 
     all_apps.sort(key=len)
     for name, _, _ in rapidfuzz.process.extract(application, all_apps, scorer=rapidfuzz.fuzz.QRatio,
-                                                score_cutoff=50):
+                                                score_cutoff=75):
         a = request.app.state.cache.get_app(name)
         apps.append(a)
 
@@ -52,7 +53,8 @@ async def search_apps(application: str,
 
 
 @router.get("/get/{application}", deprecated=True)
-async def get_app(application: str, request: Request) -> Application:
+async def get_app(application: str, request: Request,
+                  system: Optional[store_list]) -> Application:
     """Gets an application.
 
     WARNING: This route will not fuzzy search like /search does."""
@@ -67,7 +69,7 @@ async def get_app(application: str, request: Request) -> Application:
 @router.get("/random")
 async def get_random_app(request: Request,
                          limit: Optional[int] = None,
-                         system: Optional[Literal['3ds', 'ds']] = None) -> List[Application]:
+                         system: Optional[store_list] = None) -> List[Application]:
     """Gets a random application with optional filter query params"""
     limit = limit or 1
 
